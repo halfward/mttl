@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metatool-20241113</title>
+    <style>
+    body, html {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    #image-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    #grid-image {
+        max-width: 100%;
+        max-height: 130%;
+    }
+    h1 {
+        position: absolute;
+        font-family: 'Banschrift', sans-serif;
+        top: 20px; 
+        left: 50%;
+        transform: translateX(-50%);
+        color: #333;
+        font-size: 2rem;
+        z-index: 10; 
+        margin: 0;
+    }
+    </style>
+</head>
+<body>
+    <h1>Metatool-20241113</h1>
+  <div id="image-container">
+    <img id="grid-image" src="images/Frame_00000.png" alt="Grid Image">
+  </div>
+
+  <script>
+    // Configuration for the grid and images
+    const totalRows = 21;
+    const totalCols = 21;
+    const totalImages = totalRows * totalCols;
+
+    // Path to the images folder and image file prefix
+    const imagePath = "images/Frame_";
+    const imageExtension = ".png";
+
+    // Select the image element
+    const gridImage = document.getElementById("grid-image");
+
+    // Function to load image based on coordinates
+    function loadImage(row, col) {
+      const imageIndex = row * totalCols + col;
+      const imageNumber = String(imageIndex).padStart(5, "0"); // Format number with leading zeros
+      gridImage.src = `${imagePath}${imageNumber}${imageExtension}`;
+    }
+
+    // Event listener for mouse movement
+    document.addEventListener("mousemove", (event) => {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      // Calculate row and column based on mouse position
+      const col = Math.floor((event.clientX / windowWidth) * totalCols);
+      const row = Math.floor((event.clientY / windowHeight) * totalRows);
+
+      // Ensure indices are within bounds
+      const boundedRow = Math.min(totalRows - 1, Math.max(0, row));
+      const boundedCol = Math.min(totalCols - 1, Math.max(0, col));
+
+      // Load the corresponding image
+      loadImage(boundedRow, boundedCol);
+    });
+  </script>
+</body>
+</html>
